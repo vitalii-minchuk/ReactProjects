@@ -4,14 +4,44 @@ import CSVReader from "react-csv-reader"
 import CsvDownload from 'react-json-to-csv'
 
 import { v4 } from "uuid"
+import ShowSelectedStatus from "./components/ShowSelectedStatus"
+import ShowSelectedType from "./components/ShowSelectedType"
+import Table from "./components/Table"
+
+const papaparseOptions = {
+  header: true,
+  dynamicTyping: true,
+  skipEmptyLines: true,
+  transformHeader: header => header.toLowerCase().replace(/\W/g, "_")
+}
 
 const App = () => {
   const [data, setData] = useState()
   const handleForce = (data, fileInfo) => setData(data);
-
+  const [isSeveChanges, setSaveChanges] = useState(false)
+ 
   const [items, setItems] = useState([])
   const [currentStatus, setCurrentStatus] = useState("")
 console.log(currentStatus)
+
+const filterByType = (type) => {
+  async function fetchData() {
+  const response = await axios.get(`https://627e94bb271f386ceffad340.mockapi.io/items/items?type=${type}`)
+console.log(response)
+    setItems(response.data)   
+  }
+  fetchData()
+}
+const toggleSelected = (show) => {
+
+  if(show === "Withdrawal") {
+    filterByType(show)
+  } else if (show === "Refill") {
+    filterByType(show)
+  } else {
+    filterByType("")
+  }
+}
 
 
   useEffect(() => {
@@ -27,12 +57,7 @@ console.log(currentStatus)
 console.log(items)
 console.log(data)
 
-const papaparseOptions = {
-  header: true,
-  dynamicTyping: true,
-  skipEmptyLines: true,
-  transformHeader: header => header.toLowerCase().replace(/\W/g, "_")
-}
+
 
   const addToCart = (item) => {
     axios.post("https://627e94bb271f386ceffad340.mockapi.io/items/items", item)
@@ -63,14 +88,7 @@ const papaparseOptions = {
       fetchData()
   }
 
-  const filterByType = (type) => {
-    async function fetchData() {
-    const response = await axios.get(`https://627e94bb271f386ceffad340.mockapi.io/items/items?type=${type}`)
-  console.log(response)
-      setItems(response.data)   
-    }
-    fetchData()
-  }
+
 
   const searchByName = (search) => {
     async function fetchData() {
@@ -94,6 +112,19 @@ const papaparseOptions = {
     })()
   }
 
+  const resetHandler = () => {
+    // (async () => {
+    //   const sleep = duration => new Promise(resolve => setTimeout(resolve, duration));
+    
+    //   for (let i = 1; i <= items.length; i++) {
+    //     deleteFromCart(i)
+    //     await sleep(600);
+    //   }
+    // })()
+    items.map((el) => deleteFromCart(el.id))
+    
+  }
+
   const delHandler = (id) => {
     console.log(id)
     deleteFromCart(id)
@@ -105,35 +136,38 @@ const papaparseOptions = {
 
   return (
     <div>
-          <div className="container">
-    <CSVReader
-      cssClass="react-csv-input"
-      label="Select CSV with secret Death Star statistics"
-      onFileLoaded={handleForce}
-      parserOptions={papaparseOptions}
-    />
-    <p>and then open the console</p>
-    <CsvDownload data={items.map(item => ({
-      transactionid: item.transactionid,
-      status: item.status,
-      type: item.type,
-      clientname: item.clientname,
-      amount: item.amount,
-    }))} />
-  </div>
-        <select onChange={(e) => filterByStatus(e.target.value)}>
-          <option value="Pending">Pending</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-        <select onChange={(e) => filterByType(e.target.value)}>
-          <option value="Withdrawal">Withdrawal</option>
-          <option value="Refill">Refill</option>
-        </select>
-        <input onChange={(e) => searchByName(e.target.value)} />
-      <button onClick={addHandler}>add</button>
-      {items.map((item => (
+
+      {isSeveChanges ? (
+        <CsvDownload data={items.map(item => ({
+          transactionid: item.transactionid,
+          status: item.status,
+          type: item.type,
+          clientname: item.clientname,
+          amount: item.amount,
+        }))} />
+      ) : (
+        <>
+                <CSVReader
+        inputStyle={{ display: 'none' }}
+        cssClass="csv-input"
+        label={<p style={{color: "red"}}>kdljfkld</p>}
+        onFileLoaded={handleForce}
+        parserOptions={papaparseOptions}
+        />
+        <button onClick={addHandler}>add</button>
+        </>
+      )
+
+      }
+
+     {/* <ShowSelectedType toggleSelected={toggleSelected} />
+     <ShowSelectedStatus toggleSelected={toggleSelected} />
+   */}
+      <Table handleForce={handleForce} key={v4()} data= {items} />
+      {/* {items.map((item => (
+        
         <div key={v4()} style={{display: "flex", justifyContent: "space-between"}}>
+        <p>{item.transactionid}</p>
         <p>{item.clientname}</p>
         <p>{item.amount}</p>
         <select value={item.status}
@@ -151,7 +185,7 @@ const papaparseOptions = {
         </div>
       )))
 
-      }
+      } */}
     </div>
   );
 }
