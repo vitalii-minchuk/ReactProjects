@@ -3,12 +3,12 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 
-const ShowSelectedStatus = ({toggleSelected}) => {
+const ShowSelectedStatus = ({toggleSelectedStatus}) => {
   const [show, setShow] = React.useState("All")
 
   const handleChange = (event) => {
     setShow(event.target.value)
-    toggleSelected(event.target.value)
+    toggleSelectedStatus(event.target.value)
   }
 
   return (
