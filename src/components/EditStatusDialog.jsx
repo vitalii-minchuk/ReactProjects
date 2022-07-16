@@ -31,7 +31,7 @@ console.log({...openEditUserDialog, status: value})
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle align='center'>transaction #{data.id}</DialogTitle>
-      <Stack p={1} my={2}>
+      <Stack p={1} my={2} mx={2}>
         <Stack direction="row" alignItems="end" justifyContent="space-between">
           <Typography variant='subtitle1'>Client Name: </Typography>
           <Typography variant='h6'>{data.clientname}</Typography>
