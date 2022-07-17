@@ -3,7 +3,6 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import { Button, Stack } from "@mui/material"
 import ShowSelectedStatus from "./ShowSelectedStatus"
 import ShowSelectedType from "./ShowSelectedType"
-import TableHeader from "./TableHeader"
 import { render } from "@testing-library/react"
 import DeleteUserDialog from "./DeleteUserDialog"
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
@@ -15,7 +14,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 const Table = ({ data, delHandler, saveStatusHandler }) => {
   const [openDeleteUserDialog, seOpenDeleteUserDialog] = useState(0)
   const [openEditUserDialog, seOpenEditUserDialog] = useState(0)
-console.log(openEditUserDialog)
+
   let columnsData = [
     {field: "id", headerName: "ID", width: 70},
     {field: "status", headerName: "Status", width: 150, editable: true},
@@ -122,10 +121,6 @@ console.log(openEditUserDialog)
             onCellEditCommit={handelEditCell}
           />
           <Stack direction="row" justifyContent="flex-end" spacing={2} sx={{marginTop: "10px"}} >
-            {/* <Button sx={{color: "skyblue"}} disabled ={disabledBtn} onClick={() => {addNewUser()}}>Add New User</Button>
-            <DeleteUserDialog deleteUser={deleteUser} />
-            <Button sx={{color: "seagreen"}} disabled ={disabledBtn} onClick={() => {handelUpdateCellsData(users)}}>Save Changes</Button>
-            <Button sx={{color: "#111"}} onClick={() => {handlePopupClose()}}>Close</Button> */}
           </Stack>
         </div>
       </div>

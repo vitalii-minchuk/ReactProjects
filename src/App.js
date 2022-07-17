@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from "@mui/material"
+import { Button, Stack, TextField, Tooltip } from "@mui/material"
 import { Box } from "@mui/system"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -6,10 +6,12 @@ import CSVReader from "react-csv-reader"
 import CsvDownload from 'react-json-to-csv'
 
 import { v4 } from "uuid"
+import AddNewTransactionDialog from "./components/AddNewTransactionDialog"
 import ImportDataDialog from "./components/ImportDataDialog"
 import ShowSelectedStatus from "./components/ShowSelectedStatus"
 import ShowSelectedType from "./components/ShowSelectedType"
 import Table from "./components/Table"
+import { getOrderNumber } from "./helpers"
 
 const papaparseOptions = {
   header: true,
@@ -21,7 +23,7 @@ const papaparseOptions = {
 const App = () => {
   const [data, setData] = useState()
   const handleForce = (data, fileInfo) => setData(data);
-  const [isSeveChanges, setSaveChanges] = useState(false)
+  const [isAddNewTrOpen, setAddNewTrOpen] = useState(false)
   const [isImportDataDialogOpen, setImportDataDialogOpen] = useState(false)
   const [isImport, setImport] = useState(false)
  
@@ -56,7 +58,7 @@ const App = () => {
     if (status === "All") status = ""
     async function fetchData() {
       const response = await axios.get(`https://627e94bb271f386ceffad340.mockapi.io/items/items${status ? "?status=" + status : ""}`)
-    console.log(response)
+
         setItems(response.data)   
       }
       fetchData()
@@ -68,7 +70,7 @@ const App = () => {
   const searchByName = (search) => {
     async function fetchData() {
       const response = await axios.get(`https://627e94bb271f386ceffad340.mockapi.io/items/items?clientname=${search }`)
-    console.log(response)
+ 
         setItems(response.data)   
       }
       fetchData()
@@ -124,7 +126,7 @@ console.log(data)
   
     for (let i = 0; i < data.length; i++) {
       addToCart(data[i])
-      await sleep(600);
+      await sleep(1000);
     }
   }
 
@@ -154,6 +156,12 @@ console.log(data)
     updateFromCart(item)
   }
 
+
+  const addNewTransaction = () => {
+ 
+      setAddNewTrOpen(true)
+
+  }
 
   return (
     <div>
@@ -200,10 +208,16 @@ console.log(data)
             type="search"
             variant="standard"
           />
+          
+          <Tooltip title="100 transactions max">
+            <Button sx={{ml: "auto"}} disabled={items?.length === 100} onClick={addNewTransaction}>+ add new transaction</Button>
+
+          </Tooltip>
       </Stack>
 
       <Table saveStatusHandler={saveStatusHandler} delHandler={delHandler} handleForce={handleForce} key={v4()} data= {items} />
       <ImportDataDialog open={isImportDataDialogOpen} items={items} />
+      <AddNewTransactionDialog setAddNewTrOpen={setAddNewTrOpen} items={items} addToCart={addToCart} isAddNewTrOpen={isAddNewTrOpen} />
     </div>
   )
 }

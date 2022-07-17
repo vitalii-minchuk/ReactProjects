@@ -27,13 +27,15 @@ export default function ImportDataDialog({ open, items }) {
 
             <DialogContent>
               <LinearProgress />
-              <DialogContentText id="alert-dialog-slide-description">
-                Please don't reload the page
-              </DialogContentText>
+
               <DialogContentText id="alert-dialog-slide-description">
                 
                 We apologize for the delay, our server has some limits regarding queries per second,
                 but we are trying to resolve the problem ASAP
+              </DialogContentText>
+              <DialogContentText id="alert-dialog-slide-description">
+                You can stop this process by reloading the page,
+                 but in this case you have only some data to work with
               </DialogContentText>
             </DialogContent>
           </>

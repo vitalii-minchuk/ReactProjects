@@ -23,7 +23,7 @@ function SimpleDialog(props) {
   };
 
   const handleListItemClick = (value) => {
-console.log({...openEditUserDialog, status: value})
+
     saveStatusHandler({...openEditUserDialog, status: value})
     onClose(value);
   };
