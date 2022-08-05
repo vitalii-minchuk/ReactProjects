@@ -1,10 +1,12 @@
-import { Stack, Text } from "@chakra-ui/react";
+import { ScaleFade, Stack, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import SinglePost from "./Post";
 
 const Posts: FC = () => {
   const { posts } = useAppSelector((state) => state.posts);
+  const orderedPosts = posts.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  
   const dispatch = useAppDispatch();
 
   return (
@@ -13,8 +15,10 @@ const Posts: FC = () => {
         Posts
       </Text>
       <Stack spacing={4}>
-        {posts.map((item) => (
-          <SinglePost key={item.id} post={item} />
+        {orderedPosts?.map((item) => (
+          <ScaleFade key={item.id} initialScale={0.1} in >
+            <SinglePost post={item} />
+          </ScaleFade>
         ))}
       </Stack>
     </Stack>
