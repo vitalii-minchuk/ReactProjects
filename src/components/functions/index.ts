@@ -1,6 +1,32 @@
-export const validateValue = (value: number) => {
-    if(typeof(value) !== 'number' && !isNaN(value)) return false;
-    if(value > 0 && 100 > value) return true;
+export function validateValue(value: number) {
+    if(typeof value !== 'number' || isNaN(value)) return false;
+    if(value >= 0 && 100 >= value) return true;
 
     return false;
+}
+
+export function add(firstNumber: number = 0, secondNumber: number = 0) {
+    return firstNumber + secondNumber;
+}
+
+export function mapArrayToString(arr: any) {
+    return arr
+        .filter((item: any) => {
+            if(typeof item === 'string') return item;
+            return Number.isInteger(item);
+        })
+        .map(String);
+}
+
+export function square(number: number) {
+    if(number === 1) return 1;
+    return Math.pow(number, 2);
+}
+
+export function delay(callback: () => void, ms:number) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(callback())
+        }, ms);
+    });
 }
