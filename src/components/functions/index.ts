@@ -1,3 +1,11 @@
+import axios from "axios";
+
+interface userData {
+    id: number
+    email: string
+    name: string
+}
+
 export function validateValue(value: number) {
     if(typeof value !== 'number' || isNaN(value)) return false;
     if(value >= 0 && 100 >= value) return true;
@@ -29,4 +37,14 @@ export function delay(callback: () => void, ms:number) {
             resolve(callback())
         }, ms);
     });
+}
+
+export const getUserData = async () => {
+    try {
+        const { data } = await axios.get<userData[]>('https://jsonplaceholder.typicode.com/users');
+        const usersIds = data.map(user => user.id)
+        return mapArrayToString(usersIds)
+    } catch (error) {
+        console.log(error)
+    }
 }
