@@ -1,14 +1,22 @@
 import { FC, FormEvent, useState } from "react";
+import { ILoginRequest } from "../../api/types";
+import { useAppDispatch } from "../../store";
+import { loginUser } from "../../store/auth/actionCreators";
 
 const LoginForm: FC = () => {
-  const [value, setValue] = useState({
+  const [value, setValue] = useState<ILoginRequest>({
     name: "",
     password: "",
   });
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(value);
+    dispatch(loginUser(value));
+    setValue({
+      name: "",
+      password: "",
+    });
   };
   return (
     <div>
@@ -29,7 +37,7 @@ const LoginForm: FC = () => {
             type="password"
           />
         </label>
-        <button type="submit">ok</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
