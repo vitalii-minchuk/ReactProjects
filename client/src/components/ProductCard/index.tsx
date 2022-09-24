@@ -10,7 +10,7 @@ interface IProductCard {
 const ProductCard = ({ product, removeProduct }: IProductCard) => {
   const handleDelete = () => {
     console.log(product.id);
-    removeProduct(product.id);
+    removeProduct(product.id!);
   };
   return (
     <div>

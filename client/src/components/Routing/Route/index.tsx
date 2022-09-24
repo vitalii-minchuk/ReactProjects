@@ -16,7 +16,6 @@ const Route = ({ path, children }: IRoute) => {
 
     return () => window.removeEventListener("popstate", onLocationChange);
   }, []);
-
   return currentPath === path ? children : null;
 };
 

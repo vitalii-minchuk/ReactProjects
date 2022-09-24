@@ -1,18 +1,36 @@
 import { useState } from "react";
-import { ProductWithoutId } from "../api/products/types";
+import { Product } from "../api/products/types";
 import ProductForm from "../components/ProductForm";
+import useProductsData from "../hooks/useProductsData";
 
 function Create() {
-  const [newProduct, setProduct] = useState<ProductWithoutId>({
+  const { error, isLoading, addProduct } = useProductsData();
+  const [newProduct, setProduct] = useState<Product>({
     title: "",
     description: "",
     price: 0,
     inCart: false,
   });
 
+  const handleSave = async () => {
+    await addProduct(newProduct);
+    setProduct({
+      title: "",
+      description: "",
+      price: 0,
+      inCart: false,
+    });
+  };
+
   return (
     <div>
-      <ProductForm values={newProduct} setValues={setProduct} />
+      {isLoading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      <ProductForm
+        values={newProduct}
+        handleSave={handleSave}
+        setValues={setProduct}
+      />
     </div>
   );
 }

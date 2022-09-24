@@ -1,9 +1,9 @@
 export type Product = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   price: number;
   inCart: boolean;
 };
 
-export type ProductWithoutId = Omit<Product, "id">;
+// export type ProductWithoutId = Omit<Product, "id">;

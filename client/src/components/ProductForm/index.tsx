@@ -1,20 +1,39 @@
-import { Dispatch, SetStateAction } from "react";
-import { Product, ProductWithoutId } from "../../api/products/types";
+import { Dispatch, FormEvent, SetStateAction } from "react";
+import { Product } from "../../api/products/types";
+import Link from "../Routing/Link";
 
 interface IProductForm {
-  values: Product | ProductWithoutId;
-  setValues: Dispatch<SetStateAction<Product | ProductWithoutId>>;
+  values: Product;
+  setValues: Dispatch<SetStateAction<Product>>;
+  handleSave: () => void;
 }
-function ProductForm({ values, setValues }: IProductForm) {
+function ProductForm({ values, setValues, handleSave }: IProductForm) {
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    handleSave();
+  };
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="title">Product name:</label>
-      <input type="text" id="title" />
+      <input
+        value={values.title}
+        onChange={(e) => setValues({ ...values, title: e.target.value })}
+        type="text"
+        id="title"
+      />
       <label htmlFor="price">Product price:</label>
-      <input type="number" id="title" />
+      <input
+        value={values.price}
+        onChange={(e) => setValues({ ...values, price: +e.target.value })}
+        type="number"
+        id="title"
+      />
       <label htmlFor="description">Product price:</label>
-      <textarea id="title" />
-
+      <textarea
+        value={values.description}
+        onChange={(e) => setValues({ ...values, description: e.target.value })}
+        id="title"
+      />
       <button type="submit">save</button>
     </form>
   );

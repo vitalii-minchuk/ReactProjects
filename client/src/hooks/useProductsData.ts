@@ -8,6 +8,7 @@ const useProductsData = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
+    console.log("fetch");
     try {
       setIsLoading(true);
       setError(null);
@@ -16,7 +17,42 @@ const useProductsData = () => {
         throw new Error(result.statusText);
       }
       const data = await result.json();
-      setProducts(data);
+      setProducts(data.reverse());
+    } catch (error: any) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const addProduct = async (product: Product) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const result = await API.createProduct(product);
+      if (!result.ok) {
+        throw new Error(result.statusText);
+      }
+      const data = await result.json();
+      setProducts((prev) => [data, ...prev]);
+    } catch (error: any) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const editProduct = async (product: Product) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const result = await API.updateProduct(product);
+      if (!result.ok) {
+        throw new Error(result.statusText);
+      }
+      // const data = await result.json();
+      // setProducts((prev) => [data, ...prev]);
     } catch (error: any) {
       console.log(error);
       setError(error.message);
@@ -33,6 +69,7 @@ const useProductsData = () => {
       if (!result.ok) {
         throw new Error(result.statusText);
       }
+      setProducts((prev) => prev.filter((el) => el.id !== id));
     } catch (error: any) {
       console.log(error);
       setError(error.message);
@@ -54,7 +91,7 @@ const useProductsData = () => {
     return () => clearTimeout(timer);
   }, [error]);
 
-  return { error, isLoading, products, removeProduct };
+  return { error, isLoading, products, removeProduct, addProduct, editProduct };
 };
 
 export default useProductsData;
