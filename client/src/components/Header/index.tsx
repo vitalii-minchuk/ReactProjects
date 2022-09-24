@@ -1,15 +1,15 @@
-import React, { MouseEvent } from "react";
-// import { Link } from "react-router-dom";
+import { Routes } from "../../hooks/useRouting";
+import Link from "../Routing/Link";
 
 function Header() {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <h3>
-        <a href="/">test</a>
-      </h3>
+      <Link href={Routes.HOME}>
+        <h3>test</h3>
+      </Link>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <button style={{ height: "60px" }}>
+          <Link href={Routes.CART}>
             <svg
               width="24px"
               height="24px"
@@ -25,7 +25,7 @@ function Header() {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </Link>
         </div>
         <div>
           <button
@@ -49,8 +49,6 @@ function Header() {
           </button>
         </div>
       </div>
-      {/* <Link to="">home</Link>
-      <Link to="login">login</Link> */}
     </div>
   );
 }

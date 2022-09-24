@@ -1,34 +1,23 @@
-// import { Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getProducts } from "./api/products";
-import { Product } from "./api/products/types";
 import Header from "./components/Header";
-import useRouting from "./hooks/useRouting";
-// import Login from "./pages/Login";
+import Route from "./components/Routing/Route";
+import { Routes } from "./hooks/useRouting";
+import Cart from "./Views/Cart";
+import Edit from "./Views/Edit";
+import Main from "./Views/Main";
 
 function App() {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getProducts();
-      console.log(data);
-      setProducts(data);
-    };
-    fetchData();
-  }, []);
-
-  const { component, navigateTo } = useRouting(products);
-
   return (
     <>
       <Header />
-      <button onClick={() => navigateTo("/cart")}>ok</button>
-      {component}
-      {/* <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      </Routes> */}
+      <Route path={Routes.HOME}>
+        <Main />
+      </Route>
+      <Route path={Routes.CART}>
+        <Cart />
+      </Route>
+      <Route path={Routes.EDIT}>
+        <Edit />
+      </Route>
     </>
   );
 }

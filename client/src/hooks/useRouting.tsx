@@ -1,26 +1,33 @@
 import { useEffect, useState } from "react";
-import { Product } from "../api/products/types";
 import Cart from "../Views/Cart";
 import Edit from "../Views/Edit";
 import Main from "../Views/Main";
 import NotFound from "../Views/NotFound";
 
-const useRouting = (products: Product[]) => {
+export enum Routes {
+  HOME = "/",
+  CART = "/cart",
+  EDIT = "/edit",
+  CREATE = "/create",
+}
+
+export const useRouting = () => {
   const [component, setComponent] = useState(<Main />);
-  const [path, setPath] = useState("/");
+  const [path, setPath] = useState(window.location.pathname);
 
-  const navigateTo = (route: string) => {
-    setPath(route);
-  };
-
-  console.log("hello");
   useEffect(() => {
-    window.history.pushState("new", "", path);
-    setPath(window.location.pathname);
+    const onLocationChange = () => {
+      window.history.pushState({}, "", path);
+      setPath(window.location.pathname);
+    };
+    window.addEventListener("popstate", onLocationChange);
+
+    return () => window.removeEventListener("popstate", onLocationChange);
   }, [path]);
 
-  useEffect(() => {
-    switch (path) {
+  const navigateTo = (route: string) => {
+    console.log("hello", route, path);
+    switch (route) {
       case "/":
         setComponent(<Main />);
         break;
@@ -34,9 +41,6 @@ const useRouting = (products: Product[]) => {
         setComponent(<NotFound />);
         break;
     }
-  }, [path, products]);
-
-  return { navigateTo, component };
+  };
+  return { path, navigateTo, component };
 };
-
-export default useRouting;

@@ -1,16 +1,26 @@
-import { Product } from "../api/products/types";
+import ProductCard from "../components/ProductCard";
+import useProductsData from "../hooks/useProductsData";
 
 function Main() {
-  const fetchPr = () => {};
+  const { isLoading, error, products, removeProduct } = useProductsData();
+  console.log(error);
   return (
-    <div>
-      {products?.map((el) => (
-        <div key={el.id}>
-          <p>{el.title}</p>
-          <button onClick={fetchPr}>get</button>
+    <>
+      {error && <p>{error}</p>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {products?.map((el) => (
+            <ProductCard
+              key={el.id}
+              product={el}
+              removeProduct={removeProduct}
+            />
+          ))}
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 }
 

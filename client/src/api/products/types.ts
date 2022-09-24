@@ -5,3 +5,5 @@ export type Product = {
   price: number;
   inCart: boolean;
 };
+
+export type ProductWithoutId = Omit<Product, "id">;
