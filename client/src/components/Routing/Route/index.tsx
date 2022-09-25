@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import NotFound from "../../../Views/NotFound";
 
 interface IRoute {
   children: JSX.Element;
@@ -16,6 +17,7 @@ const Route = ({ path, children }: IRoute) => {
 
     return () => window.removeEventListener("popstate", onLocationChange);
   }, []);
+
   return currentPath === path ? children : null;
 };
 

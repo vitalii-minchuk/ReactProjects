@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API } from "../api/products";
 import { Product } from "../api/products/types";
 
-const useProductsData = () => {
+function useProductsData() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -92,6 +92,6 @@ const useProductsData = () => {
   }, [error]);
 
   return { error, isLoading, products, removeProduct, addProduct, editProduct };
-};
+}
 
 export default useProductsData;

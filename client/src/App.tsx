@@ -23,9 +23,6 @@ function App() {
       <Route path={Routes.CREATE}>
         <Create />
       </Route>
-      <Route path="*">
-        <NotFound />
-      </Route>
     </>
   );
 }
