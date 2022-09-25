@@ -10,12 +10,12 @@ interface IProductForm {
 function ProductForm({ values, setValues, handleSave }: IProductForm) {
   const { errors, touched, isValid, handleChange, handleTouche } =
     useValidation({ values, setValues });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     handleSave();
   };
 
-  console.log(errors, touched);
   return (
     <form>
       <label htmlFor="title">Product name:</label>

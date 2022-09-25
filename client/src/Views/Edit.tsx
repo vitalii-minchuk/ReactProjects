@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Product } from "../api/products/types";
 import ProductForm from "../components/ProductForm";
+import goBackHome from "../components/Routing/goBackHome";
 import useProductsData from "../hooks/useProductsData";
 
 const Edit = () => {
@@ -10,6 +11,7 @@ const Edit = () => {
 
   const handleSave = () => {
     editProduct(newProduct);
+    goBackHome();
   };
   return (
     <div>

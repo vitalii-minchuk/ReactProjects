@@ -1,4 +1,4 @@
-import { Product } from "./types";
+import { CartItem, Product } from "./types";
 
 const BASE_URL = "https://632e01bab37236d2ebe4bebc.mockapi.io/";
 
@@ -12,7 +12,6 @@ export const API = {
     });
   },
   createProduct: async (product: Product) => {
-    console.log(product);
     return await fetch(`${BASE_URL}/products`, {
       method: "POST",
       body: JSON.stringify(product),
@@ -25,6 +24,18 @@ export const API = {
     console.log(product);
     return await fetch(`${BASE_URL}/products/${product.id}`, {
       method: "PUT",
+      body: JSON.stringify(product),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+  },
+  getCartItems: async () => {
+    return await fetch(`${BASE_URL}/cart`);
+  },
+  addProductToCart: async (product: CartItem) => {
+    return await fetch(`${BASE_URL}/cart`, {
+      method: "POST",
       body: JSON.stringify(product),
       headers: {
         "Content-type": "application/json; charset=UTF-8",

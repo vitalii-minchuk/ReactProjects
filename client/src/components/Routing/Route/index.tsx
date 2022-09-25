@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import NotFound from "../../../Views/NotFound";
+import { useEffect, useState } from "react";
 
 interface IRoute {
   children: JSX.Element;

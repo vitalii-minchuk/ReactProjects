@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Product } from "../api/products/types";
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
 import Link from "../components/Routing/Link";
@@ -7,16 +6,19 @@ import useProductsData from "../hooks/useProductsData";
 import { Routes } from "../hooks/useRouting";
 
 function Main() {
-  const { isLoading, error, products, removeProduct } = useProductsData();
+  const { isLoading, fetchData, error, products, removeProduct } =
+    useProductsData();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(10);
-  const [shownProducts, setShownProducts] = useState<Product[]>([]);
+
+  const productsPerPage = 10;
+  const lastIndex = currentPage * productsPerPage;
+  const firstIndex = lastIndex - productsPerPage;
+  const shownProducts = products.slice(firstIndex, lastIndex);
 
   useEffect(() => {
-    const lastIndex = currentPage * productsPerPage;
-    const firstIndex = lastIndex - productsPerPage;
-    setShownProducts(products.slice(firstIndex, lastIndex));
-  }, [currentPage, products, productsPerPage]);
+    fetchData();
+  }, [fetchData]);
+  console.log(products);
   return (
     <>
       {error && <p>{error}</p>}
@@ -32,15 +34,6 @@ function Main() {
               removeProduct={removeProduct}
             />
           ))}
-          <select
-            onChange={(value) => {
-              setProductsPerPage(Number(value));
-            }}
-          >
-            <option>10</option>
-            <option>5</option>
-            <option>15</option>
-          </select>
           <Pagination
             setCurrentPage={setCurrentPage}
             totalItems={products?.length}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { API } from "../api/products";
 import { Product } from "../api/products/types";
 
@@ -7,7 +7,7 @@ function useProductsData() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     console.log("fetch");
     try {
       setIsLoading(true);
@@ -19,14 +19,14 @@ function useProductsData() {
       const data = await result.json();
       setProducts(data.reverse());
     } catch (error: any) {
-      console.log(error);
       setError(error.message);
+      setProducts([]);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const addProduct = async (product: Product) => {
+  const addProduct = useCallback(async (product: Product) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -42,8 +42,9 @@ function useProductsData() {
     } finally {
       setIsLoading(false);
     }
-  };
-  const editProduct = async (product: Product) => {
+  }, []);
+
+  const editProduct = useCallback(async (product: Product) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -51,17 +52,17 @@ function useProductsData() {
       if (!result.ok) {
         throw new Error(result.statusText);
       }
-      // const data = await result.json();
-      // setProducts((prev) => [data, ...prev]);
+      const data = await result.json();
+      setProducts((prev) => prev.map((el) => (el.id === data.id ? data : el)));
     } catch (error: any) {
       console.log(error);
       setError(error.message);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const removeProduct = async (id: string) => {
+  const removeProduct = useCallback(async (id: string) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -76,11 +77,13 @@ function useProductsData() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchData();
   }, []);
+
+  // const changeInCart = useCallback((product: Product) => {
+  //   setProducts((prev) =>
+  //     prev.map((el) => (el.id === product.id ? product : el))
+  //   );
+  // }, []);
 
   useEffect(() => {
     if (!error) return;
@@ -91,7 +94,16 @@ function useProductsData() {
     return () => clearTimeout(timer);
   }, [error]);
 
-  return { error, isLoading, products, removeProduct, addProduct, editProduct };
+  return {
+    error,
+    fetchData,
+    isLoading,
+    products,
+    removeProduct,
+    addProduct,
+    editProduct,
+    // changeInCart,
+  };
 }
 
 export default useProductsData;

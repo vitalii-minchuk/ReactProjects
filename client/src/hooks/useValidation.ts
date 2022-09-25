@@ -67,11 +67,11 @@ function useValidation({ setValues, values }: UseValidationProps) {
       case "title":
         setValues((prev) => ({ ...prev, title: e.target.value }));
         if (e.target.value.length > 50) {
-          setErrors({ ...errors, title: "Too long" });
+          setErrors((prev) => ({ ...prev, title: "Too long" }));
         } else if (e.target.value.length < 2) {
-          setErrors({ ...errors, title: "Too short" });
+          setErrors((prev) => ({ ...prev, title: "Too short" }));
         } else {
-          setErrors({ ...errors, title: "" });
+          setErrors((prev) => ({ ...prev, title: "" }));
         }
         break;
       case "price":
