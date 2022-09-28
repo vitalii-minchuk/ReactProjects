@@ -1,15 +1,13 @@
 import Header from "./components/Header";
 import CurrencyDisplay from "./components/CurrencyDisplay";
-import { useState } from "react";
+import { useAppSelector } from "./hooks";
 
 function App() {
-  const [show, setShow] = useState(false);
-
+  const { isShown } = useAppSelector((state) => state.currency);
   return (
     <div>
-      <button onClick={() => setShow(!show)}>ok</button>
       <Header />
-      {show && <CurrencyDisplay />}
+      <CurrencyDisplay />
     </div>
   );
 }
