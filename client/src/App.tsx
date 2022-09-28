@@ -1,29 +1,16 @@
 import Header from "./components/Header";
-import Route from "./components/Routing/Route";
-import { Routes } from "./hooks/useRouting";
-import Cart from "./Views/Cart";
-import Create from "./Views/Create";
-import Edit from "./Views/Edit";
-import Main from "./Views/Main";
-import NotFound from "./Views/NotFound";
+import CurrencyDisplay from "./components/CurrencyDisplay";
+import { useState } from "react";
 
 function App() {
+  const [show, setShow] = useState(false);
+
   return (
-    <>
+    <div>
+      <button onClick={() => setShow(!show)}>ok</button>
       <Header />
-      <Route path={Routes.HOME}>
-        <Main />
-      </Route>
-      <Route path={Routes.CART}>
-        <Cart />
-      </Route>
-      <Route path={Routes.EDIT}>
-        <Edit />
-      </Route>
-      <Route path={Routes.CREATE}>
-        <Create />
-      </Route>
-    </>
+      {show && <CurrencyDisplay />}
+    </div>
   );
 }
 
