@@ -9,9 +9,11 @@ function Header() {
           <Text fontFamily="Caveat" fontSize="30px">
             task words
           </Text>
-          <Flex justify="space-between" w="120px">
+          <Flex justify="space-between" w="120px" gap="10px">
             <NavLink to="">Home</NavLink>
             <NavLink to="new">Add New Word</NavLink>
+            <NavLink to="test">Quiz</NavLink>
+            <NavLink to="result">Result</NavLink>
           </Flex>
         </Flex>
       </Container>

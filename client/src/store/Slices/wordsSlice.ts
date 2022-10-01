@@ -4,6 +4,7 @@ import { Word, WordsState } from "../../types";
 const initialState: WordsState = {
   isLoading: false,
   fetchError: "",
+  newWord: null,
   words: [],
 };
 
@@ -22,10 +23,18 @@ const wordsSlice = createSlice({
       state.fetchError = action.payload;
       state.isLoading = false;
     },
+    createNewWord(state, action: PayloadAction<Word>) {
+      state.words.push(action.payload);
+      state.newWord = action.payload;
+    },
   },
 });
 
-export const { fetchWords, fetchWordsSuccess, fetchWordsFailure } =
-  wordsSlice.actions;
+export const {
+  fetchWords,
+  fetchWordsSuccess,
+  fetchWordsFailure,
+  createNewWord,
+} = wordsSlice.actions;
 
 export default wordsSlice.reducer;
