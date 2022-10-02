@@ -8,7 +8,7 @@ import { Test } from "../types";
 
 function Quiz() {
   const dispatch = useAppDispatch();
-  const { wordsForQuiz, currentQuestionIndex, quizIsAccomplished } =
+  const { wordsForQuiz, currentQuestionIndex, quizIsAccomplished, score } =
     useAppSelector((state) => state.words);
   const navigate = useNavigate();
 
@@ -18,6 +18,12 @@ function Quiz() {
 
   const handleShowResults = () => {
     navigate("/result");
+    dispatch(
+      addNewTest({
+        time: new Date(),
+        result: score * 10,
+      })
+    );
     dispatch(resetQuiz());
   };
 
@@ -25,7 +31,7 @@ function Quiz() {
     <div>
       {!wordsForQuiz.length && <button onClick={handleStart}>start</button>}
       <h1>{`${currentQuestionIndex + 1} / ${wordsForQuiz.length}`}</h1>
-      <Question />
+      {!!wordsForQuiz.length && <Question />}
       {quizIsAccomplished && (
         <button onClick={handleShowResults}>show result</button>
       )}

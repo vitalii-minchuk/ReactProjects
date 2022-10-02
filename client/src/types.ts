@@ -6,7 +6,7 @@ export type Word = {
 };
 
 export type Test = {
-  time: string;
+  time: Date;
   result: number;
 };
 

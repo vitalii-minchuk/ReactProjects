@@ -64,6 +64,8 @@ const wordsSlice = createSlice({
       state.currentQuestionIndex = 0;
       state.quizIsAccomplished = false;
       state.wordsForQuiz = [];
+      state.score = 0;
+      state.currentAnswer = "";
     },
   },
 });

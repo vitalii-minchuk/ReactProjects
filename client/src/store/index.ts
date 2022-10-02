@@ -22,7 +22,9 @@ const sagaMMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: combinedReducer,
   middleware: (getDefaultMiddleware) => {
-    const defaultMiddleware = getDefaultMiddleware();
+    const defaultMiddleware = getDefaultMiddleware({
+      serializableCheck: false,
+    });
     return [...defaultMiddleware, sagaMMiddleware, logger];
   },
 });
