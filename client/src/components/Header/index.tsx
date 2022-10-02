@@ -12,7 +12,7 @@ function Header() {
           <Flex justify="space-between" w="120px" gap="10px">
             <NavLink to="">Home</NavLink>
             <NavLink to="new">Add New Word</NavLink>
-            <NavLink to="test">Quiz</NavLink>
+            <NavLink to="quiz">Quiz</NavLink>
             <NavLink to="result">Result</NavLink>
           </Flex>
         </Flex>

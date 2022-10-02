@@ -1,21 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Test, TestState, Word } from "../../types";
+import { Test, TestState } from "../../types";
 
 const initialState: TestState = {
   isLoading: false,
   fetchError: "",
   tests: [],
   newTest: null,
-  wordsGroup: [],
 };
 
 const testSlice = createSlice({
   name: "tests",
   initialState,
   reducers: {
-    createGroup(state) {
-      state.isLoading = true;
-    },
     fetchTests(state) {
       state.isLoading = true;
     },
@@ -34,12 +30,7 @@ const testSlice = createSlice({
   },
 });
 
-export const {
-  addNewTest,
-  createGroup,
-  fetchTests,
-  fetchTestsSuccess,
-  fetchTestsFailure,
-} = testSlice.actions;
+export const { addNewTest, fetchTests, fetchTestsSuccess, fetchTestsFailure } =
+  testSlice.actions;
 
 export default testSlice.reducer;

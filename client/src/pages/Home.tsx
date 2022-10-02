@@ -1,14 +1,8 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../store";
-import { fetchWords } from "../store/Slices/wordsSlice";
+import { useAppSelector } from "../store";
 
 function Home() {
   const { words } = useAppSelector((state) => state.words);
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchWords());
-  }, []);
   return (
     <div>
       {words.map((el) => (

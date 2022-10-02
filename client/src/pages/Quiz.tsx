@@ -1,24 +1,34 @@
-import { useState } from "react";
-import { useAppDispatch } from "../store";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Question from "../components/Question";
+import { useAppDispatch, useAppSelector } from "../store";
 import { addNewTest } from "../store/Slices/testSlice";
+import { createWordsGroupForQuiz, resetQuiz } from "../store/Slices/wordsSlice";
 import { Test } from "../types";
 
 function Quiz() {
-  const [test, setTest] = useState<Test | null>(null);
   const dispatch = useAppDispatch();
+  const { wordsForQuiz, currentQuestionIndex, quizIsAccomplished } =
+    useAppSelector((state) => state.words);
+  const navigate = useNavigate();
 
-  const handleResult = () => {
-    dispatch(
-      addNewTest({
-        time: new Date().toISOString(),
-        result: 100,
-      })
-    );
+  const handleStart = () => {
+    dispatch(createWordsGroupForQuiz());
+  };
+
+  const handleShowResults = () => {
+    navigate("/result");
+    dispatch(resetQuiz());
   };
 
   return (
     <div>
-      <button onClick={handleResult}>ok</button>
+      {!wordsForQuiz.length && <button onClick={handleStart}>start</button>}
+      <h1>{`${currentQuestionIndex + 1} / ${wordsForQuiz.length}`}</h1>
+      <Question />
+      {quizIsAccomplished && (
+        <button onClick={handleShowResults}>show result</button>
+      )}
     </div>
   );
 }

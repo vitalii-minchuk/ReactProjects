@@ -15,6 +15,12 @@ export type WordsState = {
   fetchError: string;
   newWord: Word | null;
   words: Array<Word>;
+  wordsForQuiz: Array<Quiz>;
+  currentQuestionIndex: number;
+  quizIsAccomplished: boolean;
+  answers: Array<string> | undefined;
+  currentAnswer: string;
+  score: number;
 };
 
 export type TestState = {
@@ -22,7 +28,6 @@ export type TestState = {
   fetchError: string;
   newTest: Test | null;
   tests: Array<Test>;
-  wordsGroup: Array<Word>;
 };
 
 export type Quiz = {
